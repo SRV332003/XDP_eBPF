@@ -2,21 +2,21 @@ package handlers
 
 import (
 	"fmt"
-	"os"
-	"strconv"
+
+	"github.com/SRV332003/XDP_eBPF/functions"
 )
 
-func HandleInput() (string, int) {
+func HandleInput() (int, int, error) {
 	//take user input
 	var inputport int
 	fmt.Print("Enter the port number to block (press enter to pickup from .env): ")
 	fmt.Scanln(&inputport)
 	if inputport < 0 || inputport > 65535 {
 		fmt.Println("Invalid port number")
-		return "", 0
+		return 0, 0, fmt.Errorf("Invalid port number")
 	}
 	if inputport == 0 {
-		inputport = getPortFromEnv()
+		inputport = functions.EnvPort()
 	}
 
 	//take user input
@@ -24,31 +24,16 @@ func HandleInput() (string, int) {
 	fmt.Print("Enter the interface name (press enter to pickup from .env): ")
 	fmt.Scanln(&ifaceName)
 	if ifaceName == "" {
-		ifaceName = getIfaceFromEnv()
+		ifaceName = functions.EnvIFace()
 	}
 
-	return ifaceName, inputport
-
-}
-
-func getPortFromEnv() int {
-	// Get the port number from the environment variable.
-	port := os.Getenv("PORT")
-	if port == "" {
-		return 5173
-	}
-	p, err := strconv.Atoi(port)
+	ifaceIndex, err := functions.GetIfaceIndex(ifaceName)
 	if err != nil {
-		return 5173
+		return 0, 0, err
 	}
-	return p
-}
 
-func getIfaceFromEnv() string {
-	// Get the interface name from the environment variable.
-	iface := os.Getenv("IFACE")
-	if iface == "" {
-		return "wlp3s0"
-	}
-	return iface
+	fmt.Println("Interface index:", ifaceIndex, "\nInterface name:", ifaceName)
+
+	return ifaceIndex, inputport, nil
+
 }
