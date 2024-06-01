@@ -22,7 +22,7 @@ func EnvIFace() string {
 	// Get the interface name from the environment variable.
 	iface := os.Getenv("IFACE")
 	if iface == "" {
-		return "wlp3s0"
+		return "wlp3s1"
 	}
 	return iface
 }

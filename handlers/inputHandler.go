@@ -32,6 +32,7 @@ func HandleInput() (int, int, error) {
 		return 0, 0, err
 	}
 
+	fmt.Println("-------------------------")
 	fmt.Println("Interface index:", ifaceIndex, "\nInterface name:", ifaceName)
 
 	return ifaceIndex, inputport, nil
