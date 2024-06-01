@@ -1,11 +1,11 @@
-package main
+package handlers
 
 import (
 	"github.com/cilium/ebpf"
 	"github.com/cilium/ebpf/asm"
 )
 
-func getPacketFilterProgram() *ebpf.ProgramSpec {
+func GetXDPProgram(port int) *ebpf.ProgramSpec {
 	return &ebpf.ProgramSpec{
 		Type:    ebpf.XDP,
 		License: "GPL",
@@ -40,7 +40,7 @@ func getPacketFilterProgram() *ebpf.ProgramSpec {
 
 			// Load TCP destination port field
 			asm.LoadMem(asm.R2, asm.R8, 3, asm.Half), // Load TCP dest port field into R2 (offset 40)
-			asm.JEq.Imm(asm.R2, port, "exit"),        // Jump to exit if not port 4040
+			asm.JEq.Imm(asm.R2, int32(port), "exit"), // Jump to exit if not port 4040
 
 			asm.Mov.Imm(asm.R0, 1), // Set return code to XDP_DROP (1)
 			asm.Return(),           // Return from program
