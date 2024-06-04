@@ -3,6 +3,9 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 
 	//import env package
 
@@ -47,7 +50,13 @@ func main() {
 
 	fmt.Printf("Started dropping TCP packets on port %d\n", port)
 
-	select {}
+	//graceful exit
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+	<-sigs
+
+	fmt.Println("\nExiting...")
+	// select {}
 }
 
 func init() {
