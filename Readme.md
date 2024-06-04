@@ -1,6 +1,6 @@
 # TCP Port Blocker (Problem 1)
 
-This is a Go project that uses eBPF to drop TCP packets on a specific port for a specific network interface. This is the assessment for recruitment process at Accuknox.
+This is a Go project that uses eBPF to drop TCP packets on a specific port for a specific network interface. This is the assessment for recruitment process at Accuknox. Current Readme.md describes the solution of 1st problem statement. For problem 3, visit [`Problem3Readme.md`](https://github.com/SRV332003/XDP_eBPF/blob/main/Problem3Readme.md "main.go")
 
 ## Usage
 This program needs to be executed as super user or previledged-user as it needs to lock memory for `ebpf maps`.
@@ -22,7 +22,7 @@ This project uses the following environment variables:
 ```env
 //.env
 PORT=8080     // drop packets on port 8080
-IFACE=wlp3s0  // attach program to 
+IFACE=wlp3s0  // attach program to wlp3s0 network interface
  ```
 ## Code Structure
 - **[`main.go`](https://github.com/SRV332003/XDP_eBPF/blob/main/main.go "main.go")** : This is the entry point of the application. It handles user input, loads the eBPF program into the kernel, and attaches the eBPF program to a network interface.
