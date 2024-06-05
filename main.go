@@ -41,7 +41,7 @@ func main() {
 	l, err := link.AttachXDP(link.XDPOptions{
 		Program:   prog,
 		Interface: ifaceIndex,
-		Flags:     link.XDPGenericMode, // Use XDPGenericMode if your NIC doesn't support native XDP
+		Flags:     link.XDPGenericMode, // Use XDPGenericMode if NIC doesn't support native XDP
 	})
 	if err != nil {
 		log.Fatalf("Failed to attach XDP program: %v", err)
